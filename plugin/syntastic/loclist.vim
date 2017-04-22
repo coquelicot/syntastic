@@ -314,6 +314,7 @@ function! g:SyntasticLoclist.show() abort " {{{2
     call self.setloclist(0)
 
     if !self.isEmpty()
+
         let num = winnr()
         execute 'lopen ' . syntastic#util#var('loc_list_height')
         if num != winnr()
@@ -323,7 +324,7 @@ function! g:SyntasticLoclist.show() abort " {{{2
         " try to find the loclist window and set w:quickfix_title
         let errors = getloclist(0)
         for buf in tabpagebuflist()
-            if buflisted(buf) && bufloaded(buf) && getbufvar(buf, '&buftype') ==# 'quickfix'
+            if bufloaded(buf) && getbufvar(buf, '&buftype') ==# 'quickfix'
                 let win = bufwinnr(buf)
                 let title = getwinvar(win, 'quickfix_title')
 
@@ -334,6 +335,7 @@ function! g:SyntasticLoclist.show() abort " {{{2
                             \ ( (title ==# '' || title ==# ':setloclist()') && errors == getloclist(0) )
                     call setwinvar(win, 'quickfix_title', ':SyntasticCheck ' . self._name)
                     call setbufvar(buf, 'syntastic_owner_buffer', self._owner)
+                    call setbufvar(buf, '&buflisted', 0)
                 endif
             endif
         endfor
